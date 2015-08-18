@@ -24,15 +24,16 @@ class MenuNavCollectionView: UICollectionView {
         centreIfNeeded()
     }
     
+    //無限スクロールできるようにoffsetを計算
     func centreIfNeeded() {
         let currentOffset         = contentOffset
         let contentWidth          = contentSize.width
         let centerOffsetX:CGFloat = (contentWidth - bounds.size.width)/2
         let distFromCentre        = Float(centerOffsetX-currentOffset.x)
         
-        println("currntOffset:\(currentOffset)")
-        println("centerOffsetX:\(centerOffsetX)")
-        println("distFromCentre:\(fabsf(distFromCentre))")
+//        println("currntOffset:\(currentOffset)")
+//        println("centerOffsetX:\(centerOffsetX)")
+//        println("distFromCentre:\(fabsf(distFromCentre))")
         
         if fabsf(distFromCentre) > Float(contentWidth/4) {
             contentOffset = CGPoint(x: centerOffsetX, y: currentOffset.y)

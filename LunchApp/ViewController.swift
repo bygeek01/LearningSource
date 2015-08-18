@@ -8,10 +8,12 @@
 
 import UIKit
 
-class ViewController: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate {
+class ViewController: UIViewController,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UITableViewDelegate {
     
     
     @IBOutlet weak var menuNavCollectionView: MenuNavCollectionView!
+    @IBOutlet weak var contentTableCollectionView: ContentTableCollectionView!
+    
     
     //初期化処理
     //section1のセルを選択状態に設定
@@ -19,6 +21,7 @@ class ViewController: UIViewController,UICollectionViewDelegateFlowLayout,UIColl
         super.viewDidLoad()
         menuNavCollectionView.delegate = self
         menuNavCollectionView.selectItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 1), animated: true, scrollPosition: .None)
+        contentTableCollectionView.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,13 +29,20 @@ class ViewController: UIViewController,UICollectionViewDelegateFlowLayout,UIColl
     }
     
 
-    //cellのサイズを画面幅/3に設定する
+    //menucellのサイズを画面幅/3に設定する
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let cellSize = CGSize(width: collectionView.frame.width/3, height: 50)
-        return cellSize
+        switch collectionView.tag {
+        case 1:
+            let cellSize = CGSize(width: collectionView.frame.width/3, height: 50)
+            return cellSize
+        default:
+            let cellSize = CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+            return cellSize
+        }
+        
     }
     
-    //cellタップ時の処理
+    //menucellタップ時の処理
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         println("tapped#:\(indexPath.section)")
 
@@ -41,7 +51,16 @@ class ViewController: UIViewController,UICollectionViewDelegateFlowLayout,UIColl
         }else{
             collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredHorizontally, animated:true)
         }
-        
+    }
+    
+    //tableviewDelegate
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        let rowHeight = tableView.frame.height/5
+        return rowHeight
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        println("selectRow:\(indexPath.row)")
     }
 
     
